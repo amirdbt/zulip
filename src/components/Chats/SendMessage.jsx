@@ -4,22 +4,32 @@ import {
   FormControl,
   InputAdornment,
   IconButton,
+  makeStyles,
+  CircularProgress,
 } from "@material-ui/core";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { Send } from "@material-ui/icons";
-import { useHistory } from "react-router-dom";
 import "emoji-mart/css/emoji-mart.css";
 import { Picker } from "emoji-mart";
 import { UserContext } from "../ContextAPI/UserContext";
+
+const useStyle = makeStyles((theme) => ({
+  sendInput: {
+    position: "fixed",
+    width: "78%",
+    top: "87%",
+    zIndex: 2,
+  },
+}));
 
 const SendMessage = ({ channel_id, refetch }) => {
   const [message, setMessage] = useState("");
   const [chosenEmoji, setChosenEmoji] = useState("");
   const [showEmoji, setShowEmoji] = useState(false);
   const [error, setError] = useState(false);
-  let history = useHistory();
+  const [isLoading, setIsLoading] = useState(false);
 
   const [user] = useContext(UserContext);
   console.log(user);
@@ -28,6 +38,8 @@ const SendMessage = ({ channel_id, refetch }) => {
   const EmojiOn = () => {
     setShowEmoji(!showEmoji);
   };
+
+  const classes = useStyle();
 
   const onEmojiClick = (event) => {
     setChosenEmoji(event.native);
@@ -44,6 +56,7 @@ const SendMessage = ({ channel_id, refetch }) => {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         setTimeout(() => {
           console.log("sending message", values);
+          setIsLoading(true);
           axios
             .post(
               `https://banana-crumble-17466.herokuapp.com/message/new`,
@@ -53,9 +66,11 @@ const SendMessage = ({ channel_id, refetch }) => {
               console.log(res);
               resetForm({});
               refetch();
+              setIsLoading(false);
             })
             .catch((error) => {
               console.log(error);
+              setIsLoading(false);
             });
           setSubmitting(false);
         }, 200);
@@ -76,7 +91,11 @@ const SendMessage = ({ channel_id, refetch }) => {
         return (
           <>
             <form onSubmit={handleSubmit}>
-              <FormControl fullWidth variant="outlined">
+              <FormControl
+                fullWidth
+                variant="outlined"
+                className={classes.sendInput}
+              >
                 <OutlinedInput
                   id="msg"
                   name="msg"
@@ -107,13 +126,19 @@ const SendMessage = ({ channel_id, refetch }) => {
                   }
                   endAdornment={
                     <InputAdornment position="end">
-                      <IconButton
-                        style={{ color: "#6a1b9a" }}
-                        aria-label="send messages"
-                        type="submit"
-                      >
-                        <Send />
-                      </IconButton>
+                      {isLoading ? (
+                        <CircularProgress
+                          style={{ color: "#6a1b9a", width: "35px" }}
+                        />
+                      ) : (
+                        <IconButton
+                          style={{ color: "#6a1b9a" }}
+                          aria-label="send messages"
+                          type="submit"
+                        >
+                          <Send />
+                        </IconButton>
+                      )}
                     </InputAdornment>
                   }
                 />

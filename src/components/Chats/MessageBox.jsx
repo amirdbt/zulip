@@ -15,6 +15,7 @@ import DelChat from "./DelChat";
 import moment from "moment";
 import SendMessage from "./SendMessage";
 import { UserContext } from "../ContextAPI/UserContext";
+import ScrollIntoView from "react-scroll-into-view";
 
 const useStyles = makeStyles((theme) => ({
   details: {
@@ -48,6 +49,10 @@ const useStyles = makeStyles((theme) => ({
   person: {
     display: "flex",
   },
+  chatbody: {
+    overflowY: "auto",
+    height: "400px",
+  },
 }));
 
 const Messagebox = ({ match }) => {
@@ -74,78 +79,88 @@ const Messagebox = ({ match }) => {
     ["messages", { id: id }],
     fetchMessages
   );
-  console.log(data);
   return (
     <div className="content">
       {isSuccess && (
         <>
-          <div className={classes.details}>
-            <Typography className={classes.title} variant="h3">
-              # {data.data.title}
-            </Typography>
-            <IconButton
-              aria-controls="simple-menu"
-              aria-haspopup="true"
-              onClick={handleClick}
-            >
-              <Settings />
-            </IconButton>
-            <Menu
-              id="simple-menu"
-              anchorEl={anchorEl}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-            >
-              <MenuItem onClick={handleClose}>
+          <div className={classes.chatbody}>
+            <div className={classes.details}>
+              <Typography className={classes.title} variant="h3">
+                # {data.data.title}
+              </Typography>
+              <IconButton
+                aria-controls="simple-menu"
+                aria-haspopup="true"
+                onClick={handleClick}
+              >
+                <Settings />
+              </IconButton>
+              <Menu
+                id="simple-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleClose}>
+                  {" "}
+                  <DelChat id={id} />{" "}
+                </MenuItem>
+              </Menu>
+            </div>
+            <div className={classes.subtitle}>
+              <Typography className={classes.desc}>
                 {" "}
-                <DelChat id={id} />{" "}
-              </MenuItem>
-            </Menu>
-          </div>
-          <div className={classes.subtitle}>
-            <Typography className={classes.desc}>
-              {" "}
-              @{data.data.user[0].firstname} created this channel.
-            </Typography>
-          </div>
+                @{data.data.user[0].firstname} created this channel.
+              </Typography>
+            </div>
 
-          <div className={classes.subtitle}>
-            <Button className={classes.btn}>
-              <PersonAdd style={{ marginRight: 5 }} /> Add people
-            </Button>
-            <Button className={classes.btn}>
-              <Share style={{ marginRight: 5 }} /> Share channel
-            </Button>
-          </div>
-          <Divider className={classes.subtitle} />
-          <div>
-            {data.data.message.map((d) => (
-              <>
-                <div style={{ marginTop: 20 }}></div>
-                <div className={classes.display}>
-                  <Typography style={{ fontWeight: 400 }}>
-                    {moment(d.date).format("DD MMM, YYYY")}
-                  </Typography>
-                  <Divider />
-                  <div className={classes.person}>
-                    {users.map((user) => {
-                      if (user._id === d.user) {
-                        return (
-                          <Typography
-                            style={{ fontWeight: 600, marginRight: 10 }}
-                          >
-                            {user.firstname} {user.lastname}
-                          </Typography>
-                        );
-                      }
-                    })}
-                    {moment(d.date).format("h:mm:ss a")}
+            <div className={classes.subtitle}>
+              <Button className={classes.btn}>
+                <PersonAdd style={{ marginRight: 5 }} /> Add people
+              </Button>
+              <Button className={classes.btn}>
+                <Share style={{ marginRight: 5 }} /> Share channel
+              </Button>
+            </div>
+            <Divider className={classes.subtitle} />
+            <div>
+              {data.data.message.map((d) => (
+                <>
+                  <div style={{ marginTop: 20 }}></div>
+                  <div className={classes.display}>
+                    <Typography style={{ fontWeight: 400 }}>
+                      {moment(d.date).format("DD MMM, YYYY")}
+                    </Typography>
+                    <Divider />
+                    <div className={classes.person}>
+                      {users.map((user) => {
+                        if (user._id === d.user) {
+                          return (
+                            <Typography
+                              style={{ fontWeight: 600, marginRight: 10 }}
+                            >
+                              {user.firstname} {user.lastname}
+                            </Typography>
+                          );
+                        }
+                      })}
+                      {moment(d.date).format("h:mm:ss a")}
+                    </div>
+                    <Typography>{d.msg}</Typography>
                   </div>
-                  <Typography>{d.msg}</Typography>
-                </div>
-              </>
-            ))}
+                </>
+              ))}
+            </div>
+            <ScrollIntoView selector="#msg"></ScrollIntoView>
+            <div
+              style={{
+                float: "left",
+                clear: "both",
+                // height: "50px",
+              }}
+              id="msg"
+            ></div>
           </div>
         </>
       )}

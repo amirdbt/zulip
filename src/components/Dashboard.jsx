@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import {
   Divider,
@@ -23,6 +23,7 @@ import { PowerSettingsNew } from "@material-ui/icons";
 import MenuIcon from "@material-ui/icons/Menu";
 import { useQuery } from "react-query";
 import { fetchChannels } from "./Query/Queries";
+import { UserContext } from "../components/ContextAPI/UserContext";
 
 const drawerWidth = 230;
 
@@ -125,7 +126,8 @@ const Dashboard = (props) => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [op, setOp] = useState(false);
-
+  const [user] = useContext(UserContext);
+  console.log(user);
   const { isLoading, isError, data, error, isSuccess, refetch } = useQuery(
     "channels",
     fetchChannels
@@ -166,7 +168,7 @@ const Dashboard = (props) => {
       <header className={classes.header}>
         Zulip
         <Typography style={{ color: "#9e9e9e" }} variant="subtitle2">
-          amirdbt
+          {user.firstname} {user.lastname}
         </Typography>
       </header>
 

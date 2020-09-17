@@ -14,7 +14,9 @@ const Main = withRouter(({ location }) => {
     <>
       {location.pathname !== "/login" && location.pathname !== "/register" && (
         <>
-          <Dashboard />
+          <UserProvider>
+            <Dashboard />
+          </UserProvider>
         </>
       )}
       <Switch>
