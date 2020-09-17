@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Typography,
   makeStyles,
@@ -12,6 +12,9 @@ import { fetchMessages } from "../Query/Queries";
 import { useQuery } from "react-query";
 import { Settings, PersonAdd, Share } from "@material-ui/icons";
 import DelChat from "./DelChat";
+import moment from "moment";
+import SendMessage from "./SendMessage";
+import { UserContext } from "../ContextAPI/UserContext";
 
 const useStyles = makeStyles((theme) => ({
   details: {
@@ -35,11 +38,23 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 200,
     fontSize: 10,
   },
+  display: {
+    marginLeft: 100,
+    marginRight: 70,
+    fontWeight: 200,
+    color: "#9e9e9e",
+    marginBottom: 30,
+  },
+  person: {
+    display: "flex",
+  },
 }));
 
 const Messagebox = ({ match }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const [user, users] = useContext(UserContext);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -48,8 +63,14 @@ const Messagebox = ({ match }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  window.scrollTo({
+    top: document.body.scrollHeight,
+    left: 0,
+    behavior: "smooth",
+  });
   const { id } = match.params;
-  const { isLoading, isError, data, error, isSuccess, refetch } = useQuery(
+  const { data, isSuccess, refetch } = useQuery(
     ["messages", { id: id }],
     fetchMessages
   );
@@ -98,8 +119,37 @@ const Messagebox = ({ match }) => {
             </Button>
           </div>
           <Divider className={classes.subtitle} />
+          <div>
+            {data.data.message.map((d) => (
+              <>
+                <div style={{ marginTop: 20 }}></div>
+                <div className={classes.display}>
+                  <Typography style={{ fontWeight: 400 }}>
+                    {moment(d.date).format("DD MMM, YYYY")}
+                  </Typography>
+                  <Divider />
+                  <div className={classes.person}>
+                    {users.map((user) => {
+                      if (user._id === d.user) {
+                        return (
+                          <Typography
+                            style={{ fontWeight: 600, marginRight: 10 }}
+                          >
+                            {user.firstname} {user.lastname}
+                          </Typography>
+                        );
+                      }
+                    })}
+                    {moment(d.date).format("h:mm:ss a")}
+                  </div>
+                  <Typography>{d.msg}</Typography>
+                </div>
+              </>
+            ))}
+          </div>
         </>
       )}
+      <SendMessage channel_id={id} refetch={refetch} />
     </div>
   );
 };

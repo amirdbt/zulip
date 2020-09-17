@@ -51,8 +51,8 @@ const useStyles = makeStyles((theme) => ({
     // backgroundColor: "#18227c",
   },
   listItems: {
-    padding: "10px",
-    // transition: "all 0.5s ease",
+    padding: "8px",
+    transition: "all 0.2s ease",
     fontSize: "10px",
     "&:hover": {
       backgroundColor: "#38006b ",
@@ -163,7 +163,12 @@ const Dashboard = (props) => {
   const drawer = (
     <>
       <div className={classes.toolbar} />
-      <header className={classes.header}>Zulip</header>
+      <header className={classes.header}>
+        Zulip
+        <Typography style={{ color: "#9e9e9e" }} variant="subtitle2">
+          amirdbt
+        </Typography>
+      </header>
 
       <Divider />
       <List>
@@ -202,7 +207,7 @@ const Dashboard = (props) => {
           <CircularProgress color="inherit" />
         </Backdrop>
       )}
-      {console.log(data)}
+
       <AppBar className={classes.topBar} color="default" elevation={0}>
         <Toolbar>
           <IconButton
