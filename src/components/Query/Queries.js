@@ -49,3 +49,10 @@ export const SignIn = async (values) => {
   );
   return result;
 };
+
+export const delMessage = async (key, obj) => {
+  const result = await axios.delete(
+    `https://banana-crumble-17466.herokuapp.com/message/${key.id}`
+  );
+  return result;
+};

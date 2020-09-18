@@ -14,6 +14,7 @@ import { Settings, PersonAdd, Share } from "@material-ui/icons";
 import DelChat from "./DelChat";
 import moment from "moment";
 import SendMessage from "./SendMessage";
+import DelMessage from "./DelMessage";
 import ScrollIntoView from "react-scroll-into-view";
 
 const useStyles = makeStyles((theme) => ({
@@ -52,6 +53,11 @@ const useStyles = makeStyles((theme) => ({
     overflowY: "auto",
     height: "400px",
   },
+  mesbody: {
+    display: "flex",
+    justifyContent: "space-between",
+    marginBottom: -1,
+  },
 }));
 
 const Messagebox = ({ match }) => {
@@ -76,6 +82,7 @@ const Messagebox = ({ match }) => {
     ["messages", { id: id }],
     fetchMessages
   );
+  console.log(data);
   const { data: persons, status } = useQuery(["users"], fetchusers);
   return (
     <div className="content">
@@ -131,6 +138,7 @@ const Messagebox = ({ match }) => {
                       {moment(d.date).format("DD MMM, YYYY")}
                     </Typography>
                     <Divider />
+
                     <div className={classes.person}>
                       {persons.data.message.map((user, i) => {
                         if (user._id === d.user) {
@@ -146,7 +154,11 @@ const Messagebox = ({ match }) => {
                       })}
                       {moment(d.date).format("h:mm:ss a")}
                     </div>
-                    <Typography>{d.msg}</Typography>
+                    <div className={classes.mesbody}>
+                      <Typography>{d.msg}</Typography>
+
+                      <DelMessage refetch={refetch} message_id={d._id} />
+                    </div>
                   </div>
                 </>
               ))}
