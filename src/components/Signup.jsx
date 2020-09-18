@@ -19,7 +19,9 @@ import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { Alert } from "@material-ui/lab";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
+
+import { useMutation } from "react-query";
+import { SignUp } from "./Query/Queries";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -46,15 +48,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Signup = () => {
-  const [err, setErr] = useState(false);
-  const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   const handleMouseDownPassword = () => setShowPassword(!showPassword);
   let history = useHistory();
   const classes = useStyles();
 
+  const [mutate, info] = useMutation(SignUp);
+  console.log(info);
+  {
+    info.isSuccess && history.push("/home");
+  }
   return (
     <Formik
       initialValues={{
@@ -63,29 +67,8 @@ const Signup = () => {
         password: "",
         email: "",
       }}
-      onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          console.log("Signing up", values);
-          setLoading(true);
-          axios
-            .post(`https://banana-crumble-17466.herokuapp.com/users`, values)
-            .then((res) => {
-              console.log(res);
-
-              setLoading(false);
-              history.push("/");
-            })
-            .catch((err) => {
-              console.log(err.response);
-              setMessage(err.response.data);
-              setErr(true);
-              setTimeout(() => {
-                setErr(false);
-              }, 3000);
-              setLoading(false);
-            });
-          setSubmitting(false);
-        }, 200);
+      onSubmit={async (values) => {
+        await mutate(values);
       }}
       validationSchema={Yup.object().shape({
         firstname: Yup.string().required(),
@@ -114,7 +97,14 @@ const Signup = () => {
             <div style={{ marginBottom: "20px" }}></div>
             <Container component={Card} maxWidth="sm">
               <CssBaseline />
-              {err ? <Alert severity="error">{message}</Alert> : <div></div>}
+              {info.isError ? (
+                <Alert severity="error" onClose={() => info.reset()}>
+                  {" "}
+                  {info.error.response.data}
+                </Alert>
+              ) : (
+                <div></div>
+              )}
               <div className={classes.paper}>
                 <div className={classes.display}>
                   <Typography
@@ -144,7 +134,7 @@ const Signup = () => {
                         fullWidth
                         variant="outlined"
                         type="text"
-                        error={err}
+                        error={info.isError}
                         value={values.firstname}
                         className={
                           errors.firstname && touched.firstname && "error"
@@ -166,7 +156,7 @@ const Signup = () => {
                         fullWidth
                         variant="outlined"
                         type="text"
-                        error={err}
+                        error={info.isError}
                         value={values.lastname}
                         className={
                           errors.lastname && touched.lastname && "error"
@@ -185,7 +175,7 @@ const Signup = () => {
                         fullWidth
                         variant="outlined"
                         type="text"
-                        error={err}
+                        error={info.isError}
                         value={values.email}
                         className={errors.email && touched.email && "error"}
                         onChange={handleChange}
@@ -202,7 +192,7 @@ const Signup = () => {
                         fullWidth
                         type={showPassword ? "text" : "password"}
                         variant="outlined"
-                        error={err}
+                        error={info.isError}
                         className={
                           errors.password && touched.password && "error"
                         }
@@ -237,14 +227,14 @@ const Signup = () => {
                     fullWidth
                     variant="contained"
                     color="primary"
-                    disabled={loading}
+                    disabled={info.isLoading}
                     className={classes.submit}
                     onClick={handleSubmit}
                     style={{ padding: 15, backgroundColor: "#38006b" }}
                   >
                     Sign up
                   </Button>
-                  {loading && (
+                  {info.isLoading && (
                     <LinearProgress
                       variant="query"
                       style={{ marginTop: "10px" }}

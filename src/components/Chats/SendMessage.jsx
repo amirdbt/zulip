@@ -13,7 +13,7 @@ import axios from "axios";
 import { Send } from "@material-ui/icons";
 import "emoji-mart/css/emoji-mart.css";
 import { Picker } from "emoji-mart";
-import { decodedToken } from "../Query/Queries";
+import jwt_decode from "jwt-decode";
 
 const useStyle = makeStyles((theme) => ({
   sendInput: {
@@ -32,8 +32,9 @@ const SendMessage = ({ channel_id, refetch }) => {
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { _id } = decodedToken();
   const token = localStorage.getItem("token");
+  const { _id } = jwt_decode(token);
+  console.log(_id);
   const EmojiOn = () => {
     setShowEmoji(!showEmoji);
   };

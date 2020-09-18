@@ -33,3 +33,19 @@ export const fetchUser = async () => {
   );
   return result;
 };
+
+export const SignUp = async (values) => {
+  const result = await axios.post(
+    `https://banana-crumble-17466.herokuapp.com/users`,
+    values
+  );
+  return result;
+};
+
+export const SignIn = async (values) => {
+  const result = await axios.post(
+    `https://banana-crumble-17466.herokuapp.com/auth`,
+    values
+  );
+  return result;
+};
