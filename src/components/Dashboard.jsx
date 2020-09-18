@@ -17,6 +17,7 @@ import {
   Hidden,
   Backdrop,
   CircularProgress,
+  Button,
 } from "@material-ui/core";
 import AddChannel from "./Chats/AddChat";
 import { PowerSettingsNew } from "@material-ui/icons";
@@ -95,6 +96,7 @@ const useStyles = makeStyles((theme) => ({
   link1: {
     textDecoration: "none",
     color: "#000",
+    fontSize: 12,
   },
   nested: {
     paddingLeft: theme.spacing(4),
@@ -135,7 +137,8 @@ const Dashboard = (props) => {
   let history = useHistory();
 
   const logout = () => {
-    localStorage.removeItem("token");
+    // console.log("Hello");
+    localStorage.clear("token");
     history.push("/login");
   };
 
@@ -235,9 +238,9 @@ const Dashboard = (props) => {
               transformOrigin={{ vertical: "top", horizontal: "right" }}
               elevation={0}
             >
-              <Link to="/login" className={classes.link1}>
-                <MenuItem onClick={logout}>Log out</MenuItem>
-              </Link>
+              <Button onClick={logout} size="small">
+                <MenuItem className={classes.link1}>Log out</MenuItem>
+              </Button>
             </Menu>
           </div>
         </Toolbar>

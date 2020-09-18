@@ -47,7 +47,7 @@ const DelChat = ({ id }) => {
         setAl(true);
         setTimeout(() => {
           history.push("/");
-        }, 1000);
+        }, 700);
       })
       .catch((error) => {
         console.log(error);

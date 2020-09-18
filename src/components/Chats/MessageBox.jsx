@@ -102,7 +102,7 @@ const Messagebox = ({ match }) => {
               >
                 <MenuItem onClick={handleClose}>
                   {" "}
-                  <DelChat id={id} />{" "}
+                  <DelChat id={id} refetch={refetch} />{" "}
                 </MenuItem>
               </Menu>
             </div>

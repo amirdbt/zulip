@@ -19,9 +19,9 @@ const Main = withRouter(({ location }) => {
       )}
       <Switch>
         <AuthGuard path="/" exact component={Home} />
-        <AuthGuard path="/:id" component={Messagebox} />
         <Route path="/login" component={Signin} />
         <Route path="/register" component={Signup} />
+        <AuthGuard path="/:id" component={Messagebox} />
         <Route component={Notfound} />
       </Switch>
     </>
