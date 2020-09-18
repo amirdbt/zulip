@@ -56,3 +56,21 @@ export const delMessage = async (key, obj) => {
   );
   return result;
 };
+
+export const addConversation = async ({ id }, obj) => {
+  const result = await axios.post(
+    "https://banana-crumble-17466.herokuapp.com/conversation/new",
+    {
+      id,
+      token,
+    }
+  );
+  return result;
+};
+
+export const fetchConversations = async (key, obj) => {
+  const result = await axios.get(
+    `https://banana-crumble-17466.herokuapp.com/conversation/${obj.id}`
+  );
+  return result;
+};

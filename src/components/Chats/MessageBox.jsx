@@ -15,6 +15,7 @@ import DelChat from "./DelChat";
 import moment from "moment";
 import SendMessage from "./SendMessage";
 import DelMessage from "./DelMessage";
+import Conversation from "./Conversation";
 import ScrollIntoView from "react-scroll-into-view";
 
 const useStyles = makeStyles((theme) => ({
@@ -57,6 +58,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
     marginBottom: -1,
+  },
+  icons: {
+    display: "flex",
   },
 }));
 
@@ -156,8 +160,15 @@ const Messagebox = ({ match }) => {
                     </div>
                     <div className={classes.mesbody}>
                       <Typography>{d.msg}</Typography>
-
-                      <DelMessage refetch={refetch} message_id={d._id} />
+                      <div className={classes.icons}>
+                        <Conversation
+                          channel_id={id}
+                          message_id={d._id}
+                          refetch={refetch}
+                          conversation_id={d.conversation_id}
+                        />
+                        <DelMessage refetch={refetch} message_id={d._id} />
+                      </div>
                     </div>
                   </div>
                 </>
