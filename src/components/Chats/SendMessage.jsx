@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import {
   OutlinedInput,
   FormControl,
@@ -13,7 +13,7 @@ import axios from "axios";
 import { Send } from "@material-ui/icons";
 import "emoji-mart/css/emoji-mart.css";
 import { Picker } from "emoji-mart";
-import { UserContext } from "../ContextAPI/UserContext";
+import { decodedToken } from "../Query/Queries";
 
 const useStyle = makeStyles((theme) => ({
   sendInput: {
@@ -26,14 +26,13 @@ const useStyle = makeStyles((theme) => ({
 
 const SendMessage = ({ channel_id, refetch }) => {
   const [message, setMessage] = useState("");
+
   const [chosenEmoji, setChosenEmoji] = useState("");
   const [showEmoji, setShowEmoji] = useState(false);
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [user] = useContext(UserContext);
-  console.log(user);
-
+  const { _id } = decodedToken();
   const token = localStorage.getItem("token");
   const EmojiOn = () => {
     setShowEmoji(!showEmoji);
@@ -50,7 +49,7 @@ const SendMessage = ({ channel_id, refetch }) => {
       initialValues={{
         token,
         msg: "",
-        user: user._id,
+        user: _id,
         channel_id,
       }}
       onSubmit={(values, { setSubmitting, resetForm }) => {

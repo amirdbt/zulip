@@ -7,23 +7,19 @@ import Messagebox from "./components/Chats/MessageBox";
 import Notfound from "./components/Notfound";
 import { Switch, Route, withRouter } from "react-router-dom";
 import AuthGuard from "./components/AuthGuard";
-import { UserProvider } from "./components/ContextAPI/UserContext";
+import Home from "./components/Home";
 
 const Main = withRouter(({ location }) => {
   return (
     <>
       {location.pathname !== "/login" && location.pathname !== "/register" && (
         <>
-          <UserProvider>
-            <Dashboard />
-          </UserProvider>
+          <Dashboard />
         </>
       )}
       <Switch>
-        <UserProvider>
-          <AuthGuard path="/" exact component={Dashboard} />
-          <AuthGuard path="/:id" component={Messagebox} />
-        </UserProvider>
+        <AuthGuard path="/" exact component={Home} />
+        <AuthGuard path="/:id" component={Messagebox} />
         <Route path="/login" component={Signin} />
         <Route path="/register" component={Signup} />
         <Route component={Notfound} />

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import {
   Divider,
@@ -23,7 +23,6 @@ import { PowerSettingsNew } from "@material-ui/icons";
 import MenuIcon from "@material-ui/icons/Menu";
 import { useQuery } from "react-query";
 import { fetchChannels } from "./Query/Queries";
-import { UserContext } from "../components/ContextAPI/UserContext";
 
 const drawerWidth = 230;
 
@@ -125,32 +124,21 @@ const Dashboard = (props) => {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [op, setOp] = useState(false);
-  const [user] = useContext(UserContext);
-  console.log(user);
-  const { isLoading, isError, data, error, isSuccess, refetch } = useQuery(
+
+  const { isLoading, data, isSuccess, refetch } = useQuery(
     "channels",
     fetchChannels
   );
-  {
-    isSuccess && console.log(data.data);
-  }
 
   const open = Boolean(anchorEl);
   const classes = useStyles();
   let history = useHistory();
 
-  const handleClick = () => {
-    setOp(!op);
-  };
-
   const logout = () => {
     localStorage.removeItem("token");
-
     history.push("/login");
   };
 
-  // console.log(activate);
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -168,7 +156,7 @@ const Dashboard = (props) => {
       <header className={classes.header}>
         Zulip
         <Typography style={{ color: "#9e9e9e" }} variant="subtitle2">
-          {user.firstname} {user.lastname}
+          amirdbt
         </Typography>
       </header>
 
@@ -180,10 +168,11 @@ const Dashboard = (props) => {
         </ListItem>
         <Divider />
         {isSuccess &&
-          data.data.message.map((d) => (
+          data.data.message.map((d, i) => (
             <Link
               className={classes.link}
               to={{ pathname: `/${d._id}`, state: d }}
+              key={i}
             >
               <ListItem button className={classes.listItems}>
                 <ListItemIcon className={classes.iconColor}>#</ListItemIcon>
@@ -246,7 +235,7 @@ const Dashboard = (props) => {
               transformOrigin={{ vertical: "top", horizontal: "right" }}
               elevation={0}
             >
-              <Link to="/signin" className={classes.link1}>
+              <Link to="/login" className={classes.link1}>
                 <MenuItem onClick={logout}>Log out</MenuItem>
               </Link>
             </Menu>

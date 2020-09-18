@@ -75,6 +75,7 @@ const AddChannel = ({ refetch }) => {
               resetForm({});
               refetch();
               setTimeout(() => {
+                setAl(false);
                 setOpen(false);
               }, 2000);
             })

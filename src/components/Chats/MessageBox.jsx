@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
   Typography,
   makeStyles,
@@ -8,13 +8,12 @@ import {
   Menu,
   MenuItem,
 } from "@material-ui/core";
-import { fetchMessages } from "../Query/Queries";
+import { fetchMessages, fetchusers } from "../Query/Queries";
 import { useQuery } from "react-query";
 import { Settings, PersonAdd, Share } from "@material-ui/icons";
 import DelChat from "./DelChat";
 import moment from "moment";
 import SendMessage from "./SendMessage";
-import { UserContext } from "../ContextAPI/UserContext";
 import ScrollIntoView from "react-scroll-into-view";
 
 const useStyles = makeStyles((theme) => ({
@@ -59,8 +58,6 @@ const Messagebox = ({ match }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const [user, users] = useContext(UserContext);
-
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -79,9 +76,10 @@ const Messagebox = ({ match }) => {
     ["messages", { id: id }],
     fetchMessages
   );
+  const { data: persons, status } = useQuery(["users"], fetchusers);
   return (
     <div className="content">
-      {isSuccess && (
+      {isSuccess && status === "success" && (
         <>
           <div className={classes.chatbody}>
             <div className={classes.details}>
@@ -125,20 +123,21 @@ const Messagebox = ({ match }) => {
             </div>
             <Divider className={classes.subtitle} />
             <div>
-              {data.data.message.map((d) => (
+              {data.data.message.map((d, i) => (
                 <>
                   <div style={{ marginTop: 20 }}></div>
-                  <div className={classes.display}>
+                  <div className={classes.display} key={i}>
                     <Typography style={{ fontWeight: 400 }}>
                       {moment(d.date).format("DD MMM, YYYY")}
                     </Typography>
                     <Divider />
                     <div className={classes.person}>
-                      {users.map((user) => {
+                      {persons.data.message.map((user, i) => {
                         if (user._id === d.user) {
                           return (
                             <Typography
                               style={{ fontWeight: 600, marginRight: 10 }}
+                              key={i}
                             >
                               {user.firstname} {user.lastname}
                             </Typography>
@@ -157,7 +156,6 @@ const Messagebox = ({ match }) => {
               style={{
                 float: "left",
                 clear: "both",
-                // height: "50px",
               }}
               id="msg"
             ></div>

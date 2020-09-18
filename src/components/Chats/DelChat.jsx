@@ -58,7 +58,7 @@ const DelChat = ({ id }) => {
   };
   return (
     <div>
-      <Button variant="default" onClick={handleClickOpen}>
+      <Button onClick={handleClickOpen}>
         <Delete style={{ marginRight: "5px" }} /> Delete Channel
       </Button>
 
