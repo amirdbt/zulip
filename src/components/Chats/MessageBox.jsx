@@ -51,8 +51,11 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
   },
   chatbody: {
-    overflowY: "auto",
+    overflowY: "hidden",
     height: "400px",
+    "&:hover": {
+      overflowY: "auto",
+    },
   },
   mesbody: {
     display: "flex",

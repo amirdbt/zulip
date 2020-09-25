@@ -15,7 +15,7 @@ import { useMutation, useQuery } from "react-query";
 const useStyles = makeStyles({
   list: {
     width: 250,
-    backgroundColor: "#6a1b9a",
+    backgroundColor: "#242526",
     color: "#fff",
   },
   title: {

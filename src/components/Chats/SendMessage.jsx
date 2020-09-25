@@ -128,11 +128,11 @@ const SendMessage = ({ channel_id, refetch }) => {
                     <InputAdornment position="end">
                       {isLoading ? (
                         <CircularProgress
-                          style={{ color: "#6a1b9a", width: "35px" }}
+                          style={{ color: "#242526", width: "35px" }}
                         />
                       ) : (
                         <IconButton
-                          style={{ color: "#6a1b9a" }}
+                          style={{ color: "#242526" }}
                           aria-label="send messages"
                           type="submit"
                         >

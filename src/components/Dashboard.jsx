@@ -39,8 +39,8 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
-    backgroundColor: "#6a1b9a",
-    color: "#fff",
+    backgroundColor: "#18191a",
+    color: "#e3e5ea",
   },
   header: {
     fontSize: "35px",
@@ -48,20 +48,21 @@ const useStyles = makeStyles((theme) => ({
     lineHeight: "60px",
     userSelect: "none",
     fontWeight: 500,
-    borderBottom: "5px solid #38006b",
+    borderBottom: "5px solid #242526",
     // backgroundColor: "#18227c",
   },
   listItems: {
     padding: "8px",
     transition: "all 0.2s ease",
     fontSize: "10px",
+    color: "#e3e5ea",
     "&:hover": {
-      backgroundColor: "#38006b ",
+      backgroundColor: "#242526 ",
       color: "#fff",
     },
   },
   iconColor: {
-    // color: "#000",
+    color: "#e3e5ea",
     fontSize: "20px",
     marginLeft: "20px",
   },
@@ -69,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("sm")]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
-      backgroundColor: "#6a1b9a",
+      backgroundColor: "#242526",
     },
   },
   menuButton: {
@@ -169,7 +170,7 @@ const Dashboard = (props) => {
           <Typography variant="h6">Channels</Typography>
           <AddChannel refetch={refetch} />
         </ListItem>
-        <Divider />
+        <Divider style={{ color: "#242526" }} />
         {isSuccess &&
           data.data.message.map((d, i) => (
             <Link
