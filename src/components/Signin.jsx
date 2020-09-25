@@ -59,7 +59,6 @@ const Signin = () => {
     localStorage.setItem("token", info.data.data.message);
     history.push("/");
   }
-  console.log(info);
   return (
     <Formik
       initialValues={{

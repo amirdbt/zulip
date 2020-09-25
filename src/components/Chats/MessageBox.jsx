@@ -89,7 +89,7 @@ const Messagebox = ({ match }) => {
     ["messages", { id: id }],
     fetchMessages
   );
-  console.log(data);
+
   const { data: persons, status } = useQuery(["users"], fetchusers);
   return (
     <div className="content">

@@ -42,7 +42,6 @@ const DelChat = ({ id }) => {
         headers: { Authorization: `${token}` },
       })
       .then((res) => {
-        console.log(res.data);
         setMessage("Channel deleted successfully.");
         setAl(true);
         setTimeout(() => {
@@ -50,7 +49,6 @@ const DelChat = ({ id }) => {
         }, 700);
       })
       .catch((error) => {
-        console.log(error);
         setMessage("Channel could not be deleted, Try again");
         setAl(true);
         setSeverity("error");

@@ -12,7 +12,6 @@ const DelMessage = ({ message_id, refetch }) => {
     });
     refetch();
   };
-  console.log(info);
   return (
     <div>
       {info.isLoading ? (

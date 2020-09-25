@@ -55,7 +55,7 @@ const Signup = () => {
   const classes = useStyles();
 
   const [mutate, info] = useMutation(SignUp);
-  console.log(info);
+
   {
     info.isSuccess && history.push("/home");
   }

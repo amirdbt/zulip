@@ -67,8 +67,6 @@ const AddChannel = ({ refetch }) => {
               { headers: { Authorization: `${token}` } }
             )
             .then((res) => {
-              console.log(res);
-              //   console.log(res.data.message);
               setMessage("Channel created successfully");
               setAl(true);
               setLoading(false);
@@ -80,7 +78,6 @@ const AddChannel = ({ refetch }) => {
               }, 2000);
             })
             .catch((err) => {
-              console.log(err.response);
               setMessage("Channel could not be created, try again");
               setErr(true);
               setAl(true);

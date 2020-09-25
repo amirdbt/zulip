@@ -30,7 +30,6 @@ const SendConversation = ({ channel_id, refetch }) => {
 
   const token = localStorage.getItem("token");
   const { _id } = jwt_decode(token);
-  console.log(_id);
 
   const classes = useStyle();
 

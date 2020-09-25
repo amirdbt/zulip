@@ -3,7 +3,6 @@ import jwt_decode from "jwt-decode";
 
 const token = localStorage.getItem("token");
 export const decodedToken = () => {
-  console.log(jwt_decode(token));
   return jwt_decode(token);
 };
 export const fetchChannels = async () => {
