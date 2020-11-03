@@ -44,6 +44,15 @@ const useStyles = makeStyles((theme) => ({
   error: {
     color: "rgb(235, 54, 54)",
   },
+  bigCard:{
+    padding: "25px 30px",
+    minHeight: "100%",
+    background: "#ffffff",
+    boxShadow: "0px 14px 60px rgba(0,0,0,0.06)",
+    borderRadius: "9px",
+    transition : "all 0.4s ease-in-out 0s"
+},
+
 }));
 
 const Signin = () => {
@@ -92,7 +101,7 @@ const Signin = () => {
           <>
             <div style={{ marginBottom: "20px" }}></div>
 
-            <Container component={Card} maxWidth="sm">
+            <Container component={Card} maxWidth="sm" className={classes.bigCard}>
               <CssBaseline />
               {info.isError ? (
                 <Alert severity="error" onClose={() => info.reset()}>
